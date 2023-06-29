@@ -32,3 +32,4 @@ public class InvoiceProduct {
     @JoinColumn(name = "id_product", insertable = false, updatable = false)
     private Product product;
 }
+
