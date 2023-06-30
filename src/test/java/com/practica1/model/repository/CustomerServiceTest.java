@@ -25,27 +25,32 @@ public class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService;
 
+    private Customer customer;
+    private Customer customer2;
+    private List<Customer> customers;
 
     @BeforeEach
     void setUp() {
-        Customer customer = new Customer();
+        customer = new Customer();
         customer.setIdCustomer(1L);
         customer.setName("Name1");
         customer.setEmail("test1@mail.com");
 
-        Customer customer2 = new Customer();
+        customer2 = new Customer();
         customer2.setIdCustomer(2L);
         customer2.setName("Name2");
         customer2.setEmail("test2@mail.com");
 
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
-
+        customers = Arrays.asList(customer, customer2);
     }
 
 
     @Test
     public void testFindAll() {
+        when(customerRepository.findAll()).thenReturn(customers);
+
         List<Customer> customers = customerService.getAll();
+
         verify(customerRepository, times(1)).findAll();
 
         assertEquals(1L, customers.get(0).getIdCustomer());
@@ -59,10 +64,50 @@ public class CustomerServiceTest {
 
     @Test
     public void testFindById() {
-        Customer customer = customerService.getById(1L);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+
+        Customer Customer = customerService.getById(1L);
+
         verify(customerRepository, times(1)).findById(1L);
-        assertEquals(1L, customer.getIdCustomer());
-        assertEquals("Name1", customer.getName());
-        assertEquals("test1@mail.com", customer.getEmail());
+        assertEquals(1L, Customer.getIdCustomer());
+        assertEquals("Name1", Customer.getName());
+        assertEquals("test1@mail.com", Customer.getEmail());
+    }
+
+    @Test
+    public void testAddCustomer() {
+        Customer customer3 = new Customer();
+        customer3.setIdCustomer(3L);
+        customer3.setName("name3");
+        customer3.setEmail("test3@mail.com");
+
+        when(customerRepository.save(customer3)).thenReturn(customer3);
+
+        Customer addedCustomer = customerService.addCustomer(customer3);
+
+        verify(customerRepository, times(1)).save(customer3);
+
+        assertEquals(3L, addedCustomer.getIdCustomer());
+        assertEquals("name3", addedCustomer.getName());
+        assertEquals("test3@mail.com", addedCustomer.getEmail());
+    }
+
+    @Test
+    public void testUpdateCustomer() {
+        Customer customerToUpdate = new Customer();
+        customerToUpdate.setIdCustomer(1L);
+        customerToUpdate.setName("name3");
+        customerToUpdate.setEmail("test3@mail.com");
+
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+        when(customerRepository.save(any(Customer.class))).thenReturn(customerToUpdate);
+
+        Customer updatedCustomer = customerService.update(1L, customerToUpdate);
+
+        verify(customerRepository, times(1)).save(any(Customer.class));
+
+        assertEquals(1L, updatedCustomer.getIdCustomer());
+        assertEquals(customerToUpdate.getName(), updatedCustomer.getName());
+        assertEquals(customerToUpdate.getEmail(), updatedCustomer.getEmail());
     }
 }

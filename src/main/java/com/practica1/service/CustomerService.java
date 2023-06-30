@@ -21,4 +21,21 @@ public class CustomerService {
     public List<Customer> getAll() {
         return customerRepository.findAll();
     }
+
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    public Customer update(long id, Customer customer) {
+        Customer customerToUpdate;
+        try {
+            customerToUpdate = getById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Customer not found with id " + id);
+        }
+        customerToUpdate.setName(customer.getName());
+        customerToUpdate.setEmail(customer.getEmail());
+
+        return customerRepository.save(customerToUpdate);
+    }
 }
