@@ -110,4 +110,11 @@ public class CustomerServiceTest {
         assertEquals(customerToUpdate.getName(), updatedCustomer.getName());
         assertEquals(customerToUpdate.getEmail(), updatedCustomer.getEmail());
     }
+
+    @Test
+    public void testDeleteCustomer() {
+        doNothing().when(customerRepository).deleteById(1L);
+        customerService.delete(1L);
+        verify(customerRepository, times(1)).deleteById(1L);
+    }
 }
