@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -14,8 +15,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public Customer getById(Long id) {
-        return customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
+        return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
     }
 
     public List<Customer> getAll() {
@@ -29,7 +29,7 @@ public class CustomerService {
     public Customer update(long id, Customer customer) {
         Customer customerToUpdate;
         try {
-            customerToUpdate = getById(id);
+            customerToUpdate = customerRepository.getReferenceById(id);
         } catch (Exception e) {
             throw new RuntimeException("Customer not found with id " + id);
         }
@@ -38,7 +38,6 @@ public class CustomerService {
 
         return customerRepository.save(customerToUpdate);
     }
-
 
     public void delete(long l) {
         customerRepository.deleteById(l);
