@@ -27,16 +27,12 @@ public class CustomerService {
     }
 
     public Customer update(long id, Customer customer) {
-        Customer customerToUpdate;
-        try {
-            customerToUpdate = customerRepository.getReferenceById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Customer not found with id " + id);
-        }
-        customerToUpdate.setName(customer.getName());
-        customerToUpdate.setEmail(customer.getEmail());
-
-        return customerRepository.save(customerToUpdate);
+        return customerRepository.findById(id).
+                map(customerToUpdate -> {
+                    customerToUpdate.setName(customer.getName());
+                    customerToUpdate.setEmail(customer.getEmail());
+                    return customerRepository.save(customerToUpdate);
+                }).orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
     }
 
     public void delete(long l) {

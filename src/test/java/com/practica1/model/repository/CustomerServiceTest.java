@@ -99,7 +99,7 @@ public class CustomerServiceTest {
         customerToUpdate.setName("name3");
         customerToUpdate.setEmail("test3@mail.com");
 
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(customerToUpdate));
         when(customerRepository.save(any(Customer.class))).thenReturn(customerToUpdate);
 
         Customer updatedCustomer = customerService.update(1L, customerToUpdate);
