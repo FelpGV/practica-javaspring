@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -36,7 +35,6 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     private Customer customer;
-    private Customer customer2;
     private List<Customer> customers;
 
     @BeforeEach
@@ -46,7 +44,7 @@ public class CustomerControllerTest {
         customer.setName("Name1");
         customer.setEmail("test1@mail.com");
 
-        customer2 = new Customer();
+        Customer customer2 = new Customer();
         customer2.setIdCustomer(2L);
         customer2.setName("Name2");
         customer2.setEmail("test2@mail.com");

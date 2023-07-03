@@ -1,8 +1,8 @@
-package com.practica1.model.repository;
+package com.practica1.service;
 
 
 import com.practica1.model.entity.Customer;
-import com.practica1.service.CustomerService;
+import com.practica1.model.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
