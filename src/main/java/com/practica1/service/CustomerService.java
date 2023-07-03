@@ -26,7 +26,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer update(long id, Customer customer) {
+    public Customer updateCustomer(long id, Customer customer) {
         return customerRepository.findById(id).
                 map(customerToUpdate -> {
                     customerToUpdate.setName(customer.getName());

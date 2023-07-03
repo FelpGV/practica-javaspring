@@ -102,7 +102,7 @@ public class CustomerServiceTest {
         when(customerRepository.findById(1L)).thenReturn(Optional.of(customerToUpdate));
         when(customerRepository.save(any(Customer.class))).thenReturn(customerToUpdate);
 
-        Customer updatedCustomer = customerService.update(1L, customerToUpdate);
+        Customer updatedCustomer = customerService.updateCustomer(1L, customerToUpdate);
 
         verify(customerRepository, times(1)).save(any(Customer.class));
 

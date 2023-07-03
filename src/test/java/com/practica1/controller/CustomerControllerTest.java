@@ -71,7 +71,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testGetById() throws Exception {
-        when(customerService.getById(1L)).thenReturn(customer);
+        when(customerService.getById(Mockito.anyLong())).thenReturn(customer);
 
         mockMvc.perform(get("/api/customers/1"))
                 .andExpect((status().isOk()))
@@ -86,9 +86,9 @@ public class CustomerControllerTest {
     public void testGetByIdThrowsException() {
         long id = 3L;
 
-//        when(customerController.getById(id)).thenThrow(new RuntimeException("Customer not found"));
-//
-//        assertThrows(RuntimeException.class, () -> customerController.getById(id));
+        when(customerService.getById(Mockito.anyLong())).thenThrow(new RuntimeException("Customer not found with id " + id));
+
+        assertThrows(RuntimeException.class, () -> customerService.getById(id));
     }
 
 
@@ -107,5 +107,23 @@ public class CustomerControllerTest {
 
         response.andExpect(status().isCreated());
     }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Customer customerToUpdate = new Customer();
+        customerToUpdate.setName("name3");
+        customerToUpdate.setEmail("test3@mail.com");
+
+        when(customerService.updateCustomer(Mockito.anyLong(), Mockito.any(Customer.class))).thenReturn(customerToUpdate);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ResultActions response = mockMvc.perform(put("/api/customers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customerToUpdate)));
+
+        response.andExpect(status().isOk());
+    }
+
 
 }
