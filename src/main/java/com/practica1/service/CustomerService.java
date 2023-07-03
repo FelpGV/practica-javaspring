@@ -2,17 +2,18 @@ package com.practica1.service;
 
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     public Customer getById(Long id) {
         return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found with id " + id));

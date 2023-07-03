@@ -132,6 +132,4 @@ public class CustomerControllerTest {
                 .andExpect(status().isNoContent());
         verify(customerService, times(1)).delete(1L);
     }
-
-
 }

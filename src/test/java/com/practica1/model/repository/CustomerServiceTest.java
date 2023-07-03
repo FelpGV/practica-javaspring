@@ -26,7 +26,6 @@ public class CustomerServiceTest {
     private CustomerService customerService;
 
     private Customer customer;
-    private Customer customer2;
     private List<Customer> customers;
 
     @BeforeEach
@@ -36,7 +35,7 @@ public class CustomerServiceTest {
         customer.setName("Name1");
         customer.setEmail("test1@mail.com");
 
-        customer2 = new Customer();
+        Customer customer2 = new Customer();
         customer2.setIdCustomer(2L);
         customer2.setName("Name2");
         customer2.setEmail("test2@mail.com");
