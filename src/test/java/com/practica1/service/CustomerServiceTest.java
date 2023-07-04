@@ -82,13 +82,13 @@ public class CustomerServiceTest {
 
         when(customerRepository.save(customer3)).thenReturn(customer3);
 
-        Customer addedCustomer = customerService.addCustomer(customer3);
+        Customer customerAdded = customerService.addCustomer(customer3);
 
         verify(customerRepository, times(1)).save(customer3);
 
-        assertEquals(3L, addedCustomer.getIdCustomer());
-        assertEquals("name3", addedCustomer.getName());
-        assertEquals("test3@mail.com", addedCustomer.getEmail());
+        assertEquals(3L, customerAdded.getIdCustomer());
+        assertEquals("name3", customerAdded.getName());
+        assertEquals("test3@mail.com", customerAdded.getEmail());
     }
 
     @Test
