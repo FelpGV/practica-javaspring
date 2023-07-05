@@ -1,5 +1,6 @@
 package com.practica1.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,6 @@ public class Invoice {
     private Customer customer;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<InvoiceProduct> invoiceProduct;
 }

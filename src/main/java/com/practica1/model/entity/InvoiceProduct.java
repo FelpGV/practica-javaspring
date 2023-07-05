@@ -1,5 +1,7 @@
 package com.practica1.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,10 +28,12 @@ public class InvoiceProduct {
 
     @ManyToOne
     @JoinColumn(name = "id_invoice", insertable = false, updatable = false)
+    @JsonIgnore
     private Invoice invoice;
 
     @ManyToOne
     @JoinColumn(name = "id_product", insertable = false, updatable = false)
+    @JsonIgnore
     private Product product;
 }
 
