@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -114,8 +113,25 @@ public class ProductServiceTest {
         assertEquals(1L, productUpdated.getIdProduct());
         assertEquals("Name3", productUpdated.getName());
         assertEquals("Description3", productUpdated.getDescription());
+    }
 
+    @Test
+    public void testUpdateNotFound() {
+        Product productToUpdate = new Product();
+        productToUpdate.setIdProduct(3L);
+        productToUpdate.setName("Name3");
+        productToUpdate.setDescription("Description3");
+        productToUpdate.setPrice(3.0);
+        productToUpdate.setCategory("Category3");
+        productToUpdate.setStock(3);
 
+        when(productRepository.findById(3L)).thenReturn(Optional.empty());
+
+        Product productUpdated = productService.updateProduct(3L, productToUpdate);
+
+        assertNull(productUpdated);
+
+        verify(productRepository, times(0)).save(any(Product.class));
     }
 
     @Test
