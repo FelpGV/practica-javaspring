@@ -3,6 +3,9 @@ package com.practica1.service;
 import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +46,10 @@ public class CustomerService {
 
     public List<CustomerSpendDTO> getCustomerSpend() {
         return customerRepository.calculateTotalSpendForAllCustomers();
+    }
+
+    public Page<CustomerSpendDTO> getCustomerSpendPaginate(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 5);
+        return customerRepository.getCustomerSpendPaginate(pageable);
     }
 }

@@ -3,6 +3,7 @@ package com.practica1.controller;
 import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +63,11 @@ public class CustomerController {
     @GetMapping("/spend")
     public List<CustomerSpendDTO> getCustomerSpend() {
         return customerService.getCustomerSpend();
+    }
+
+    @GetMapping("/spend/{pageNumber}")
+    public Page<CustomerSpendDTO> getCustomerSpendPaginate(@PathVariable int pageNumber) {
+        return customerService.getCustomerSpendPaginate(pageNumber);
     }
 
 }
