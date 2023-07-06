@@ -19,8 +19,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> getById(Long id) {
-        return productRepository.findById(id);
+    public Product getById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
     public Product addProduct(Product product) {
@@ -37,6 +37,15 @@ public class ProductService {
             return productRepository.save(productUpdated);
         }
         return null;
+    }
+
+    public void updateProductStock(long id, int newStock) {
+        Optional<Product> productToUpdate = productRepository.findById(id);
+        if (productToUpdate.isPresent()) {
+            Product productUpdated = productToUpdate.get();
+            productUpdated.setStock(productUpdated.getStock() - newStock);
+            productRepository.save(productUpdated);
+        }
     }
 
     public void deleteProduct(Long id) {

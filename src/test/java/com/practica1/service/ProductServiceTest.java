@@ -67,9 +67,8 @@ public class ProductServiceTest {
     @Test
     public void testFindById() {
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-        Optional<Product> productFound = productService.getById(1L);
-        assertTrue(productFound.isPresent());
-        assertEquals(1L, productFound.get().getIdProduct());
+        Product productFound = productService.getById(1L);
+        assertEquals(1L, productFound.getIdProduct());
         verify(productRepository, times(1)).findById(1L);
     }
 
