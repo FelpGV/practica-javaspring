@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class CartDTO {
     private long idCustomer;
-    private List<CartProductDto> products;
+    private List<CartProductDTO> products;
 }

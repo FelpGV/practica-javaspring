@@ -1,7 +1,7 @@
 package com.practica1.service;
 
 import com.practica1.dto.CartDTO;
-import com.practica1.dto.CartProductDto;
+import com.practica1.dto.CartProductDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.entity.Invoice;
 import com.practica1.model.entity.InvoiceProduct;
@@ -47,7 +47,7 @@ public class InvoiceService {
         invoice.setInvoiceProduct(new ArrayList<>());
         invoice = invoiceRepository.save(invoice);
 
-        for (CartProductDto productDTO : cartDTO.getProducts()) {
+        for (CartProductDTO productDTO : cartDTO.getProducts()) {
             Product product = productService.getById(productDTO.getIdProduct());
 
             InvoiceProduct invoiceProduct = new InvoiceProduct();
@@ -66,6 +66,18 @@ public class InvoiceService {
 
         invoiceRepository.save(invoice);
 
+    }
+
+    public void totalActualization() {
+        List<Invoice> invoices = invoiceRepository.findAll();
+        for (Invoice invoice : invoices) {
+            double total = 0;
+            for (InvoiceProduct invoiceProduct : invoice.getInvoiceProduct()) {
+                total += invoiceProduct.getQuantity() * invoiceProduct.getProduct().getPrice();
+            }
+            invoice.setTotal(total);
+            invoiceRepository.save(invoice);
+        }
     }
 
     public Invoice updateInvoice(long id, Invoice invoice) {

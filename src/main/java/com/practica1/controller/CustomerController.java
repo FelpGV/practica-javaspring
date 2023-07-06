@@ -1,5 +1,6 @@
 package com.practica1.controller;
 
+import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,11 @@ public class CustomerController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/spend")
+    public List<CustomerSpendDTO> getCustomerSpend() {
+        return customerService.getCustomerSpend();
     }
 
 }

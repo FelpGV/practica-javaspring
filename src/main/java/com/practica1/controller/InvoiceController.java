@@ -20,4 +20,9 @@ public class InvoiceController {
         invoiceService.addInvoice(cartDTO);
     }
 
+    @PutMapping("/")
+    public void totalActualization() {
+        invoiceService.totalActualization();
+    }
+
 }

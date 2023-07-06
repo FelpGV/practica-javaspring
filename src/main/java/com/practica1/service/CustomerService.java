@@ -1,5 +1,6 @@
 package com.practica1.service;
 
+import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,9 @@ public class CustomerService {
 
     public void delete(long l) {
         customerRepository.deleteById(l);
+    }
+
+    public List<CustomerSpendDTO> getCustomerSpend() {
+        return customerRepository.calculateTotalSpendForAllCustomers();
     }
 }
