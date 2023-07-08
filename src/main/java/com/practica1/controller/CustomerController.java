@@ -3,6 +3,7 @@ package com.practica1.controller;
 import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,16 +25,21 @@ public class CustomerController {
     }
 
     @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all Customers")
     public List<Customer> getAll() {
         return customerService.getAll();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get a Customer by id")
     public Customer getById(@PathVariable long id) {
         return customerService.getById(id);
     }
 
     @PostMapping("/")
+    @Operation(summary = "Create a new Customer")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
         try {
             Customer customerSaved = customerService.addCustomer(customer);
@@ -44,6 +50,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update a Customer by id")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         try {
             Customer customerUpdated = customerService.updateCustomer(id, customer);
@@ -54,6 +61,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a Customer by id")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         try {
             customerService.delete(id);
@@ -64,11 +72,13 @@ public class CustomerController {
     }
 
     @GetMapping("/spendGeneral")
+    @Operation(summary = "Get the total spend of all Customers")
     public List<CustomerSpendDTO> getCustomerSpend() {
         return customerService.getCustomerSpend();
     }
 
     @GetMapping("/spend")
+    @Operation(summary = "Get the total spend of all Customers with pagination")
     public Page<CustomerSpendDTO> getCustomerSpendPaginate(@ParameterObject @PageableDefault(size = 20) Pageable page) {
         return customerService.getCustomerSpendPaginate(page);
     }

@@ -16,15 +16,17 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @Operation(summary = "DTO: CartDTO, Create a new Invoice and InvoiceProduct")
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addInvoice(@RequestBody(description = "Parameters to add a new Invoice") CartDTO cartDTO) {
+    @Operation(summary = "DTO: CartDTO, Create a new Invoice and InvoiceProduct")
+    public void addInvoice(@RequestBody(description = "Parameters to add a new Invoice", required = true) CartDTO cartDTO) {
         invoiceService.addInvoice(cartDTO);
     }
 
 
     @PutMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Actualize the total of all Invoices")
     public void totalActualization() {
         invoiceService.totalActualization();
     }
