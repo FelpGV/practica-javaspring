@@ -4,11 +4,13 @@ import com.practica1.dto.CartDTO;
 import com.practica1.service.InvoiceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/invoices")
+@Tag(name = "Invoice", description = "Invoice and InvoiceProduct API")
 public class InvoiceController {
     InvoiceService invoiceService;
 

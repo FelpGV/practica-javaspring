@@ -3,6 +3,7 @@ package com.practica1.controller;
 import com.practica1.model.entity.Product;
 import com.practica1.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Product", description = "Product API")
 public class ProductController {
     private final ProductService productService;
 
@@ -18,14 +20,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all Products")
     public Iterable<Product> getAll() {
         return productService.getAll();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get a Product by id")
     public Product getById(@PathVariable Long id) {
