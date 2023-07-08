@@ -3,7 +3,10 @@ package com.practica1.controller;
 import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,14 +63,14 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/spend")
+    @GetMapping("/spendGeneral")
     public List<CustomerSpendDTO> getCustomerSpend() {
         return customerService.getCustomerSpend();
     }
 
-    @GetMapping("/spend/{pageNumber}")
-    public Page<CustomerSpendDTO> getCustomerSpendPaginate(@PathVariable int pageNumber) {
-        return customerService.getCustomerSpendPaginate(pageNumber);
+    @GetMapping("/spend")
+    public Page<CustomerSpendDTO> getCustomerSpendPaginate(@ParameterObject @PageableDefault(size = 20) Pageable page) {
+        return customerService.getCustomerSpendPaginate(page);
     }
 
 }

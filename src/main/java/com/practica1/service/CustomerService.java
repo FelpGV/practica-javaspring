@@ -48,8 +48,7 @@ public class CustomerService {
         return customerRepository.calculateTotalSpendForAllCustomers();
     }
 
-    public Page<CustomerSpendDTO> getCustomerSpendPaginate(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, 5);
+    public Page<CustomerSpendDTO> getCustomerSpendPaginate(Pageable pageable) {
         return customerRepository.getCustomerSpendPaginate(pageable);
     }
 }
