@@ -1,9 +1,12 @@
 package com.practica1.controller;
 
 import com.practica1.dto.CustomerSpendDTO;
+import com.practica1.exception.HandledErrorResponse;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,21 +39,24 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer found", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Get a Customer by id")
     public Customer getById(@PathVariable long id) {
         return customerService.getById(id);
     }
 
     @PostMapping("/")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Customer created", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "409", description = "Customer email already exists", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Create a new Customer")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
-        try {
-            Customer customerSaved = customerService.addCustomer(customer);
-            return new ResponseEntity<>(customerSaved, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Customer customerSaved = customerService.addCustomer(customer);
+        return new ResponseEntity<>(customerSaved, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
