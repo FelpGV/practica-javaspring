@@ -3,12 +3,14 @@ package com.practica1.service;
 import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -40,8 +42,12 @@ public class CustomerService {
                 }).orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
     }
 
-    public void delete(long l) {
-        customerRepository.deleteById(l);
+    public void delete(long id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty()) {
+            throw new EntityNotFoundException("Customer not found with id " + id);
+        }
+        customerRepository.deleteById(id);
     }
 
     public List<CustomerSpendDTO> getCustomerSpend() {

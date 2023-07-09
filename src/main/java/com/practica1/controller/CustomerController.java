@@ -4,6 +4,8 @@ import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -64,13 +66,13 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a Customer by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Customer deleted"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")
+    })
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        try {
-            customerService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        customerService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/spendGeneral")
