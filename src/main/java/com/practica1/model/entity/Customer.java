@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,9 +26,13 @@ public class Customer {
     private Long idCustomer;
 
     @Column(name = "name", length = 45, nullable = false)
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     @Column(name = "email", unique = true, nullable = false)
+    @NotNull(message = "Email is required")
+    @NotEmpty(message = "Email cannot be empty")
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

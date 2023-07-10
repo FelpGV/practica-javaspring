@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,23 +52,26 @@ public class CustomerController {
     @PostMapping("/")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Customer created", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid Customer data", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
             @ApiResponse(responseCode = "409", description = "Customer email already exists", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
     })
     @Operation(summary = "Create a new Customer")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
         Customer customerSaved = customerService.addCustomer(customer);
         return new ResponseEntity<>(customerSaved, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer updated", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid Customer data", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "Customer email already exists", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Update a Customer by id")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        try {
-            Customer customerUpdated = customerService.updateCustomer(id, customer);
-            return new ResponseEntity<>(customerUpdated, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Customer> updateCustomer(@Valid @PathVariable Long id, @RequestBody Customer customer) {
+        Customer customerUpdated = customerService.updateCustomer(id, customer);
+        return new ResponseEntity<>(customerUpdated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -82,12 +86,23 @@ public class CustomerController {
     }
 
     @GetMapping("/spendGeneral")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Total spend of all Customers", content = @Content(schema = @Schema(implementation = CustomerSpendDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Customers not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Get the total spend of all Customers")
     public List<CustomerSpendDTO> getCustomerSpend() {
         return customerService.getCustomerSpend();
     }
 
     @GetMapping("/spend")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Total spend of all Customers with pagination", content = @Content(schema = @Schema(implementation = CustomerSpendDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Page not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Get the total spend of all Customers with pagination")
     public Page<CustomerSpendDTO> getCustomerSpendPaginate(@ParameterObject @PageableDefault(size = 20) Pageable page) {
         return customerService.getCustomerSpendPaginate(page);

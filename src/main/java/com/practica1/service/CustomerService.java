@@ -4,6 +4,7 @@ import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +31,6 @@ public class CustomerService {
     }
 
     public Customer addCustomer(Customer customer) {
-        if (customer.getEmail() == null || customer.getEmail().isEmpty()) {
-            throw new NullPointerException("Customer email is required");
-        }
-        if (customer.getName() == null || customer.getName().isEmpty()) {
-            throw new NullPointerException("Customer name is required");
-        }
         Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
         if (existingCustomer.isPresent()) {
             throw new DataIntegrityViolationException("Customer with email " + customer.getEmail() + " already exists");
@@ -44,12 +39,17 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(long id, Customer customer) {
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
+        if (existingCustomer.isPresent()) {
+            throw new DataIntegrityViolationException("Customer with email " + customer.getEmail() + " already exists");
+        }
+
         return customerRepository.findById(id).
                 map(customerToUpdate -> {
                     customerToUpdate.setName(customer.getName());
                     customerToUpdate.setEmail(customer.getEmail());
                     return customerRepository.save(customerToUpdate);
-                }).orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
+                }).orElseThrow(() -> new EntityNotFoundException("Customer not found with id " + id));
     }
 
     public void delete(long id) {
@@ -61,10 +61,24 @@ public class CustomerService {
     }
 
     public List<CustomerSpendDTO> getCustomerSpend() {
-        return customerRepository.calculateTotalSpendForAllCustomers();
+        List<CustomerSpendDTO> customerSpendDTOList = customerRepository.calculateTotalSpendForAllCustomers();
+        try {
+            if (customerSpendDTOList.isEmpty()) {
+                throw new EntityNotFoundException("No customers found");
+            }
+        } catch (DataAccessException e) {
+            throw new DataAccessException("Error while accessing data", e) {
+            };
+        }
+        return customerSpendDTOList;
+
     }
 
     public Page<CustomerSpendDTO> getCustomerSpendPaginate(Pageable pageable) {
+        Page<CustomerSpendDTO> customerSpendDTOList = customerRepository.getCustomerSpendPaginate(pageable);
+        if (pageable.getPageNumber() > customerSpendDTOList.getTotalPages()) {
+            throw new EntityNotFoundException("Page not found");
+        }
         return customerRepository.getCustomerSpendPaginate(pageable);
     }
 }
