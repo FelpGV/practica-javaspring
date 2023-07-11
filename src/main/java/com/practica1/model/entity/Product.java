@@ -3,6 +3,8 @@ package com.practica1.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,8 @@ public class Product {
     @Column(name = "id_product")
     private Long idProduct;
 
-    @Column(length = 45, nullable = false)
+    @Column(length = 45, nullable = false, unique = true)
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     @Column(length = 150, nullable = false)

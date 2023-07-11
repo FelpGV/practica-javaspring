@@ -4,7 +4,6 @@ import com.practica1.dto.CustomerSpendDTO;
 import com.practica1.model.entity.Customer;
 import com.practica1.model.repository.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,13 @@ public class CustomerService {
     }
 
     public List<Customer> getAll() {
-        return customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
+        try {
+            return customers;
+        } catch (Exception e) {
+            throw new EntityNotFoundException("No customers found");
+        }
+
     }
 
     public Customer addCustomer(Customer customer) {
@@ -35,7 +40,11 @@ public class CustomerService {
         if (existingCustomer.isPresent()) {
             throw new DataIntegrityViolationException("Customer with email " + customer.getEmail() + " already exists");
         }
-        return customerRepository.save(customer);
+        try {
+            return customerRepository.save(customer);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving customer");
+        }
     }
 
     public Customer updateCustomer(long id, Customer customer) {
@@ -53,22 +62,17 @@ public class CustomerService {
     }
 
     public void delete(long id) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (customer.isEmpty()) {
+        try {
+            customerRepository.deleteById(id);
+        } catch (Exception e) {
             throw new EntityNotFoundException("Customer not found with id " + id);
         }
-        customerRepository.deleteById(id);
     }
 
     public List<CustomerSpendDTO> getCustomerSpend() {
         List<CustomerSpendDTO> customerSpendDTOList = customerRepository.calculateTotalSpendForAllCustomers();
-        try {
-            if (customerSpendDTOList.isEmpty()) {
-                throw new EntityNotFoundException("No customers found");
-            }
-        } catch (DataAccessException e) {
-            throw new DataAccessException("Error while accessing data", e) {
-            };
+        if (customerSpendDTOList.isEmpty()) {
+            throw new EntityNotFoundException("No customers found");
         }
         return customerSpendDTOList;
 

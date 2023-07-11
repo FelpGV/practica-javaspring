@@ -34,6 +34,10 @@ public class CustomerController {
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customers found", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "404", description = "Customers not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
     @Operation(summary = "Get all Customers")
     public List<Customer> getAll() {
         return customerService.getAll();
@@ -90,7 +94,6 @@ public class CustomerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Total spend of all Customers", content = @Content(schema = @Schema(implementation = CustomerSpendDTO.class))),
             @ApiResponse(responseCode = "404", description = "Customers not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
     })
     @Operation(summary = "Get the total spend of all Customers")
     public List<CustomerSpendDTO> getCustomerSpend() {
@@ -101,7 +104,6 @@ public class CustomerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Total spend of all Customers with pagination", content = @Content(schema = @Schema(implementation = CustomerSpendDTO.class))),
             @ApiResponse(responseCode = "404", description = "Page not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
     })
     @Operation(summary = "Get the total spend of all Customers with pagination")
     public Page<CustomerSpendDTO> getCustomerSpendPaginate(@ParameterObject @PageableDefault(size = 20) Pageable page) {
