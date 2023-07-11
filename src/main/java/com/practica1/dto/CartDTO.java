@@ -1,5 +1,7 @@
 package com.practica1.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CartDTO {
-    private long idCustomer;
+    @NotNull(message = "The idCustomer field is required")
+    private Long idCustomer;
+
     private List<CartProductDTO> products;
 }

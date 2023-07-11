@@ -7,6 +7,7 @@ import com.practica1.model.entity.Invoice;
 import com.practica1.model.entity.InvoiceProduct;
 import com.practica1.model.entity.Product;
 import com.practica1.model.repository.InvoiceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,13 @@ public class InvoiceService {
     }
 
     public void addInvoice(CartDTO cartDTO) {
-        Customer customer = customerService.getById(cartDTO.getIdCustomer());
+        Customer customer;
+        System.out.println(cartDTO.getIdCustomer());
+        try {
+            customer = customerService.getById(cartDTO.getIdCustomer());
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Customer not found");
+        }
 
         Invoice invoice = new Invoice();
         invoice.setCustomer(customer);
@@ -58,6 +65,7 @@ public class InvoiceService {
             invoiceProduct.setProduct(product);
 
             invoice.setTotal(invoice.getTotal() + productDTO.getQuantity() * product.getPrice());
+
             invoice.getInvoiceProduct().add(invoiceProduct);
 
             productService.updateProductStock(product.getIdProduct(), productDTO.getQuantity());

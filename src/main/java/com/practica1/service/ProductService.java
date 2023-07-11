@@ -54,17 +54,18 @@ public class ProductService {
 
     public void updateProductStock(long id, int newStock) {
         Optional<Product> productToUpdate = productRepository.findById(id);
-        if (productToUpdate.isEmpty()) {
-            throw new EntityNotFoundException("Product not found with id " + id);
-        } else {
-            productToUpdate.get().setStock(newStock);
-            productRepository.save(productToUpdate.get());
-        }
 
+        if (productToUpdate.isPresent()) {
+            Product productUpdated = productToUpdate.get();
+            productUpdated.setStock(productUpdated.getStock() - newStock);
+            if (productUpdated.getStock() < 0) {
+                throw new DataIntegrityViolationException("Product with id " + id + " has not enough stock");
+            }
+            productRepository.save(productUpdated);
+        }
     }
 
     public void deleteProduct(Long id) {
-        Optional<Product> product = productRepository.findById(id);
         try {
             productRepository.deleteById(id);
         } catch (Exception e) {
