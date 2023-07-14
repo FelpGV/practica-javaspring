@@ -8,16 +8,8 @@ import { Product } from './models/product';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  http = inject(HttpClient);
 
   title = 'frontend';
-  products: Product[] = [];
 
-  ngOnInit() {
-    this.http.get<Product>('http://localhost:8080/api/products/')
-      .subscribe(data => {
-      console.log(data);
-    });
-  }
 
 }

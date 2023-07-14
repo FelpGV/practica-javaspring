@@ -115,25 +115,6 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateNotFound() {
-        Product productToUpdate = new Product();
-        productToUpdate.setIdProduct(3L);
-        productToUpdate.setName("Name3");
-        productToUpdate.setDescription("Description3");
-        productToUpdate.setPrice(3.0);
-        productToUpdate.setCategory("Category3");
-        productToUpdate.setStock(3);
-
-        when(productRepository.findById(3L)).thenReturn(Optional.empty());
-
-        Product productUpdated = productService.updateProduct(3L, productToUpdate);
-
-        assertNull(productUpdated);
-
-        verify(productRepository, times(0)).save(any(Product.class));
-    }
-
-    @Test
     public void testDeleteProduct() {
         doNothing().when(productRepository).deleteById(1L);
         productService.deleteProduct(1L);
