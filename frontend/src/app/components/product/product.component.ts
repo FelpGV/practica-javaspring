@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Product } from 'src/app/models/product';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -8,21 +8,21 @@ import { Product } from 'src/app/models/product';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent {
-  @Input() product!: Product;
-  constructor() {
-   }
-  http = inject(HttpClient);
-  title = 'frontend';
 
-  products: Product[] = [];
+  @Input() products: Product[] = [];
 
-  ngOnInit() {
-     this.http.get<Product[]>('http://localhost:8080/api/products/')
-      .subscribe((data: Product[]) => {
-        this.products = data;
-        console.log(this.products);
+  constructor(private productService: ProductService) {
 
-      });
-      console.log(this.products);
   }
+
+  title = 'frontend';
+  ngOnInit() {
+    this.productService.getProducts().subscribe((products: Product[]) => {
+      this.products = products;
+    });
+ }
+
+
+
+
 }

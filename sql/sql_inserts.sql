@@ -1,0 +1,106 @@
+INSERT INTO customer (name, email) 
+VALUES 
+('Alejandro García Mendoza', 'agmendoza@mail.com'), 
+('Miguel Sánchez Pérez', 'msanchezperez@mail.com'), 
+('Isabel Torres Ruiz', 'itorresruiz@mail.com'), 
+('Adriana Vargas Moreno', 'avargasm@mail.com'), 
+('Roberto Guzmán Hernández', 'robertogh@mail.com'), 
+('Daniela Ríos Silva', 'daniriossilva@mail.com'), 
+('Luis Montoya Cárdenas', 'luismc@mail.com'), 
+('Liliana López Ramírez', 'lilianalr@mail.com'), 
+('Felipe Arias Galindo', 'fariasgalindo@mail.com'), 
+('Camila Medina Rosales', 'camilamr@mail.com');
+
+INSERT INTO product (name, description, price, category, quantity) 
+VALUES 
+('Pantalla XYZ', 'Pantalla OLED de 32 pulgadas con resolución 8K. Ideal para diseño gráfico profesional.', 599.99, 'Pantalla', 15),
+('Mouse Gamer Pro', 'Mouse ergonómico con luz LED. Ideal para gaming.', 49.99, 'Mouse', 20),
+('Teclado Mecánico RGB', 'Teclado mecánico con luz RGB y teclas programables. Perfecto para programadores y gamers.', 79.99, 'Teclado', 17),
+('Disco Duro Externo 2TB', 'Disco duro externo de 2TB. Compatible con USB 3.0. Perfecto para almacenamiento de datos.', 89.99, 'Disco duro', 18),
+('Pantalla 4K Gamer', 'Pantalla de 27 pulgadas con tasa de refresco de 144Hz. Ideal para gaming.', 399.99, 'Pantalla', 16),
+('Mouse Inalámbrico', 'Mouse inalámbrico con autonomía de 30 horas. Diseño slim y ergonómico.', 29.99, 'Mouse', 19),
+('Teclado Inalámbrico', 'Teclado inalámbrico con autonomía de 40 horas. Conectividad Bluetooth.', 59.99, 'Teclado', 20),
+('Disco Duro Interno 1TB', 'Disco duro interno de 1TB. Velocidad de 7200RPM.', 49.99, 'Disco duro', 17),
+('Pantalla UltraWide', 'Pantalla UltraWide de 34 pulgadas. Ideal para multitasking y diseño gráfico.', 699.99, 'Pantalla', 15),
+('Mouse Pad Gamer', 'Mouse Pad de gran tamaño con superficie optimizada para precisión.', 19.99, 'Mouse', 20),
+('Teclado Compacto', 'Teclado compacto con diseño minimalista. Perfecto para trabajar en espacios reducidos.', 39.99, 'Teclado', 19),
+('Disco Duro SSD 500GB', 'Disco duro SSD de 500GB. Velocidad de transferencia ultra rápida.', 109.99, 'Disco duro', 18),
+('Pantalla Curva', 'Pantalla curva de 32 pulgadas. Perfecta para una experiencia inmersiva.', 549.99, 'Pantalla', 16),
+('Mouse Gamer RGB', 'Mouse gamer con luz RGB. Con 8 botones programables.', 59.99, 'Mouse', 20),
+('Teclado Gaming Pro', 'Teclado con switches mecánicos y luz RGB. Ideal para gaming.', 89.99, 'Teclado', 18),
+('Disco Duro Externo 4TB', 'Disco duro externo de 4TB. Perfecto para backup de grandes cantidades de datos.', 139.99, 'Disco duro', 17),
+('Pantalla Portátil', 'Pantalla portátil de 15 pulgadas. Perfecta para trabajadores nómadas.', 249.99, 'Pantalla', 19),
+('Mouse Ergonómico', 'Mouse ergonómico diseñado para prevenir el síndrome del túnel carpiano.', 39.99, 'Mouse', 20),
+('Teclado Ergonómico', 'Teclado ergonómico con apoyo para las muñecas. Perfecto para largas jornadas de trabajo.', 69.99, 'Teclado', 16),
+('Disco Duro SSD 1TB', 'Disco duro SSD de 1TB. Ideal para acelerar el rendimiento de tu computadora.', 159.99, 'Disco duro', 15);
+
+INSERT INTO invoice (date, total, id_customer) 
+VALUES 
+('2023-01-15T09:00:00', 0, 7),
+('2023-01-28T15:00:00', 0, 3),
+('2023-02-08T12:00:00', 0, 10),
+('2023-02-18T16:00:00', 0, 1),
+('2023-03-05T10:00:00', 0, 4),
+('2023-03-22T11:00:00', 0, 6),
+('2023-04-03T14:00:00', 0, 2),
+('2023-04-19T10:00:00', 0, 9),
+('2023-05-07T13:00:00', 0, 5),
+('2023-05-20T11:00:00', 0, 7),
+('2023-06-05T16:00:00', 0, 1),
+('2023-06-22T09:00:00', 0, 8),
+('2023-07-03T15:00:00', 0, 3),
+('2023-07-10T13:00:00', 0, 6),
+('2023-07-16T11:00:00', 0, 4),
+('2023-07-20T14:00:00', 0, 10),
+('2023-07-22T16:00:00', 0, 2),
+('2023-07-25T09:00:00', 0, 9),
+('2023-07-27T15:00:00', 0, 5),
+('2023-07-30T10:00:00', 0, 7);
+
+
+INSERT INTO invoice_product (id_invoice, id_product, quantity) 
+VALUES 
+(1, 1, 2),
+(1, 4, 1),
+(1, 5, 3),
+(2, 2, 1),
+(2, 7, 3),
+(3, 3, 2),
+(3, 6, 2),
+(3, 9, 1),
+(4, 8, 2),
+(4, 10, 3),
+(4, 12, 1),
+(5, 11, 3),
+(5, 13, 1),
+(6, 14, 2),
+(6, 15, 2),
+(7, 16, 1),
+(7, 17, 3),
+(7, 18, 2),
+(8, 19, 1),
+(8, 20, 1),
+(9, 7, 2),
+(9, 5, 3),
+(9, 3, 1),
+(10, 1, 2),
+(10, 4, 3),
+(10, 9, 1),
+(11, 2, 2),
+(11, 6, 1),
+(11, 12, 3),
+(12, 10, 1),
+(12, 13, 3),
+(12, 11, 2),
+(13, 14, 1),
+(13, 15, 3),
+(14, 16, 1),
+(14, 17, 2),
+(14, 18, 3),
+(15, 19, 1),
+(15, 20, 2),
+(15, 8, 1);
+
+
+
+

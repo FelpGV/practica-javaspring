@@ -1,10 +1,10 @@
-<ng-container *ngIf="product">
+<ng-container *ngIf="products">
   <div *ngFor="let product of products">
     <h2>{{ product.name }}</h2>
     <p>{{ product.description }}</p>
     <p>{{ product.price }}</p>
   </div>
 </ng-container>
-<ng-container *ngIf="!product">
+<ng-container *ngIf="!products">
   <h2>No hay producto</h2>
 </ng-container>
