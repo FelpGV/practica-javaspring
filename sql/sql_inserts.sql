@@ -11,7 +11,7 @@ VALUES
 ('Felipe Arias Galindo', 'fariasgalindo@mail.com'), 
 ('Camila Medina Rosales', 'camilamr@mail.com');
 
-INSERT INTO product (name, description, price, category, quantity) 
+INSERT INTO product (name, description, price, category, stock) 
 VALUES 
 ('Pantalla XYZ', 'Pantalla OLED de 32 pulgadas con resolución 8K. Ideal para diseño gráfico profesional.', 599.99, 'Pantalla', 15),
 ('Mouse Gamer Pro', 'Mouse ergonómico con luz LED. Ideal para gaming.', 49.99, 'Mouse', 20),

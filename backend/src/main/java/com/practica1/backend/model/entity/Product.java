@@ -38,6 +38,9 @@ public class Product {
     @Column(nullable = false)
     private Integer stock;
 
+    @Column(length = 150, nullable = false)
+    private String image;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<InvoiceProduct> invoiceProduct;
