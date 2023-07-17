@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -74,4 +75,18 @@ public class ProductService {
     }
 
 
+    public void addImage() {
+        List<Product> products = productRepository.findAll();
+        for(Product product : products){
+            String category = product.getCategory();
+            product.setImage(switch (category) {
+                case "Disco duro" -> "https://i.imgur.com/iX8DH6x.jpg";
+                case "Mouse" -> "https://i.imgur.com/KTquQLJ.jpg";
+                case "Teclado" -> "https://i.imgur.com/ga7c3Tc.jpg";
+                case "Pantalla" -> "https://i.imgur.com/6NLulSl.jpg";
+                default -> null;  // Or another default value
+            });
+            productRepository.save(product);
+        }
+    }
 }

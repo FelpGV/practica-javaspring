@@ -83,5 +83,12 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
+    @PutMapping("/images")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Add image to product")
+    public void addImage() {
+        productService.addImage();
+    }
+
 
 }
