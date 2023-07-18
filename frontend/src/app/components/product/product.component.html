@@ -1,9 +1,9 @@
 <ng-container *ngIf="products">
-  <div *ngFor="let product of products">
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <p>{{ product.price }}</p>
-    <img src="{{ product.image }}" alt="{{ product.name }}" width="250" height="250">
+  <div class="card" *ngFor="let product of products">
+    <img class="img-fluid" src="{{ product.image }}" alt="{{ product.name }}">
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ product.name }}</h5>
+    <p class="card-text"> {{ product.description }}</p>
+    <h6 class="card-price">{{ product.price }}</h6>
   </div>
 </ng-container>
 <ng-container *ngIf="!products">
