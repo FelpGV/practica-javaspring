@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Product } from './models/product';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +9,8 @@ import { Product } from './models/product';
 export class AppComponent {
 
   title = 'frontend';
+
+  constructor(public router: Router) { }
 
 
 }

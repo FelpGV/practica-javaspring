@@ -1,1 +1,3 @@
-<app-product></app-product>
+<a *ngIf="router.url !== '/'" routerLink="/">Home</a>
+<a *ngIf="router.url !== '/customers'" routerLink="/customers">customers</a>
+<router-outlet></router-outlet>
