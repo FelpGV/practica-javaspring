@@ -7,7 +7,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -80,10 +79,10 @@ public class ProductService {
         for(Product product : products){
             String category = product.getCategory();
             product.setImage(switch (category) {
-                case "Disco duro" -> "https://i.imgur.com/iX8DH6x.jpg";
-                case "Mouse" -> "https://i.imgur.com/KTquQLJ.jpg";
-                case "Teclado" -> "https://i.imgur.com/ga7c3Tc.jpg";
-                case "Pantalla" -> "https://i.imgur.com/6NLulSl.jpg";
+                case "Disco duro" -> "https://i.imgur.com/67fm5pQ.png";
+                case "Mouse" -> "https://i.imgur.com/LTYOKu2.png";
+                case "Teclado" -> "https://i.imgur.com/crFmLL4.png";
+                case "Pantalla" -> "https://i.imgur.com/RunMaR5.png";
                 default -> null;  // Or another default value
             });
             productRepository.save(product);
