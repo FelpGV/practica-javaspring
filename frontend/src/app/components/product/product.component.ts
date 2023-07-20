@@ -10,10 +10,20 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductComponent {
 
   @Input() products: Product[] = [];
+  hovering = -1;
 
-  constructor(private productService: ProductService) {
 
-  }
+  constructor(private productService: ProductService) { }
+
+  hoveredIndex = -1;
+
+onMouseOver(index: number) {
+  this.hoveredIndex = index;
+}
+
+onMouseOut() {
+  this.hoveredIndex = -1;
+}
 
   title = 'frontend';
   ngOnInit() {
