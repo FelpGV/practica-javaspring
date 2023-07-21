@@ -17,15 +17,14 @@ export class ProductComponent {
 
   hoveredIndex = -1;
 
-onMouseOver(index: number) {
-  this.hoveredIndex = index;
-}
+  onMouseOver(index: number) {
+    this.hoveredIndex = index;
+  }
 
-onMouseOut() {
-  this.hoveredIndex = -1;
-}
+  onMouseOut() {
+    this.hoveredIndex = -1;
+  }
 
-  title = 'frontend';
   ngOnInit() {
     this.productService.getProducts().subscribe((products: Product[]) => {
       this.products = products;
