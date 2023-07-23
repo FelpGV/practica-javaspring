@@ -1,5 +1,5 @@
 <ng-container *ngIf="products">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-32 mt-12">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-11 md:px-32 mt-12">
     <div class="bg-white shadow-md rounded-lg overflow-hidden transform transition duration-500 ease-in-out border-2 border-transparent hover:bg-gray-200 hover:border-black"
          *ngFor="let product of products; let i = index" (mouseover)="onMouseOver(i)" (mouseout)="onMouseOut()">
       <img class="w-full h-48 object-cover object-center" src="{{ product.image }}" alt="{{ product.name }}">
