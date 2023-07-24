@@ -11,10 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +102,8 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
     })
     @Operation(summary = "Get products page")
-    public Page<Product> getProductPage(@ParameterObject @PageableDefault(size = 9) Pageable pageable) {
+    public Page<Product> getProductPage(@RequestParam(name = "page" ,defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 9);
         return productService.getProductPage(pageable);
     }
 
@@ -114,7 +114,8 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
     })
     @Operation(summary = "Get products by category")
-    public Page<Product> getProductsByCategory(@PathVariable String nameCategory, @ParameterObject @PageableDefault(size = 9) Pageable pageable) {
+    public Page<Product> getProductsByCategory(@PathVariable String nameCategory, @RequestParam(name = "page" ,defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 9);
         return productService.getProductsByCategory(nameCategory, pageable);
     }
 

@@ -1,4 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
+import { PageResponse } from 'src/app/models/pageResponse';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -26,8 +27,8 @@ export class ProductComponent {
   }
 
   ngOnInit() {
-    this.productService.getProducts().subscribe((products: Product[]) => {
-      this.products = products;
+    this.productService.getProducts().subscribe((pageResponse: PageResponse<Product[]>) => {
+      this.products = pageResponse.content;
     });
  }
 
