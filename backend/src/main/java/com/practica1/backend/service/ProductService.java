@@ -4,6 +4,8 @@ import com.practica1.backend.model.entity.Product;
 import com.practica1.backend.model.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -86,6 +88,25 @@ public class ProductService {
                 default -> null;  // Or another default value
             });
             productRepository.save(product);
+        }
+    }
+
+
+    public Page<Product> getProductsByCategory(String nameCategory, Pageable pageable) {
+        Page<Product> products = productRepository.findByCategory(nameCategory, pageable);
+        try {
+            return products;
+        } catch (Exception e) {
+            throw new EntityNotFoundException("No products " + nameCategory + " found");
+        }
+    }
+
+    public Page<Product> getProductPage(Pageable pageable) {
+        Page<Product> products = productRepository.findWithPage(pageable);
+        try {
+            return products;
+        } catch (Exception e) {
+            throw new EntityNotFoundException("No products found");
         }
     }
 }

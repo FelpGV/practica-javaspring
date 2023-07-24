@@ -11,9 +11,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/products")
@@ -26,16 +31,16 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Products found", content = @Content(schema = @Schema(implementation = Customer.class))),
-            @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
-    })
-    @Operation(summary = "Get all Products")
-    public Iterable<Product> getAll() {
-        return productService.getAll();
-    }
+//    @GetMapping("/")
+//    @ResponseStatus(HttpStatus.OK)
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Products found", content = @Content(schema = @Schema(implementation = Customer.class))),
+//            @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+//    })
+//    @Operation(summary = "Get all Products")
+//    public Iterable<Product> getAll() {
+//        return productService.getAll();
+//    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -88,6 +93,29 @@ public class ProductController {
     @Operation(summary = "Add image to product")
     public void addImage() {
         productService.addImage();
+    }
+
+
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products found", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
+    @Operation(summary = "Get products page")
+    public Page<Product> getProductPage(@ParameterObject @PageableDefault(size = 9) Pageable pageable) {
+        return productService.getProductPage(pageable);
+    }
+
+    @GetMapping("/category/{nameCategory}")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products found", content = @Content(schema = @Schema(implementation = Customer.class))),
+            @ApiResponse(responseCode = "404", description = "Products not found", content = @Content(schema = @Schema(implementation = HandledErrorResponse.class)))
+    })
+    @Operation(summary = "Get products by category")
+    public Page<Product> getProductsByCategory(@PathVariable String nameCategory, @ParameterObject @PageableDefault(size = 9) Pageable pageable) {
+        return productService.getProductsByCategory(nameCategory, pageable);
     }
 
 
