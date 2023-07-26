@@ -10,13 +10,16 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductComponent {
 
-  @Input() products: Product[] = [];
-  hovering = -1;
-
 
   constructor(private productService: ProductService) { }
 
+  @Input() products: Product[] = [];
+  // @Input() page!: PageResponse<Product>;
+  isLastPage: boolean = false;
+  page: number = 0;
+
   hoveredIndex = -1;
+
 
   onMouseOver(index: number) {
     this.hoveredIndex = index;
@@ -26,11 +29,33 @@ export class ProductComponent {
     this.hoveredIndex = -1;
   }
 
+
+
   ngOnInit() {
-    this.productService.getProducts().subscribe((pageResponse: PageResponse<Product[]>) => {
+    this.loadProducts();
+
+  }
+
+  loadProducts() {
+    this.productService.getProducts(this.page).subscribe((pageResponse: PageResponse<Product>) => {
       this.products = pageResponse.content;
+      this.isLastPage = pageResponse.last;
     });
- }
+  }
+
+  nextPage() {
+    this.page++;
+    this.loadProducts();
+  }
+
+  previousPage() {
+    if (this.page > 0) {
+      this.page--;
+      this.loadProducts();
+    }
+  }
+
+
 
 
 

@@ -12,7 +12,7 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
- public getProducts(): Observable<PageResponse<Product[]>> {
-   return this.http.get<PageResponse<Product[]>>('http://localhost:8080/api/products?page=0');
+ public getProducts(page:number): Observable<PageResponse<Product>> {
+   return this.http.get<PageResponse<Product>>(`http://localhost:8080/api/products?page=${page}`);
  }
 }
