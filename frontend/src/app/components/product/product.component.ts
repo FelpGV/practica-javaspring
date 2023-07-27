@@ -17,7 +17,7 @@ export class ProductComponent {
   // @Input() page!: PageResponse<Product>;
   isLastPage: boolean = false;
   page: number = 0;
-
+  totalPages:number = 0;
   hoveredIndex = -1;
 
 
@@ -40,7 +40,15 @@ export class ProductComponent {
     this.productService.getProducts(this.page).subscribe((pageResponse: PageResponse<Product>) => {
       this.products = pageResponse.content;
       this.isLastPage = pageResponse.last;
+      if(this.totalPages === 0){
+        this.totalPages = pageResponse.totalPages;
+      }
     });
+  }
+
+  goToPage(page: number) {
+    this.page = page;
+    this.loadProducts();
   }
 
   nextPage() {
