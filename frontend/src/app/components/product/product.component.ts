@@ -18,6 +18,8 @@ export class ProductComponent {
   isLastPage: boolean = false;
   page: number = 0;
   totalPages:number = 0;
+  currentPage:number = 0;
+  displayedPages: number = 5;
   hoveredIndex = -1;
 
 
@@ -40,6 +42,9 @@ export class ProductComponent {
     this.productService.getProducts(this.page).subscribe((pageResponse: PageResponse<Product>) => {
       this.products = pageResponse.content;
       this.isLastPage = pageResponse.last;
+      this.currentPage = pageResponse.number;
+      console.log( this.currentPage);
+
       if(this.totalPages === 0){
         this.totalPages = pageResponse.totalPages;
       }
@@ -63,9 +68,13 @@ export class ProductComponent {
     }
   }
 
-
-
-
+  get startPage(): number {
+    let start = this.currentPage - Math.floor(this.displayedPages / 2);
+    return Math.max(Math.min(start, this.totalPages - this.displayedPages), 0);
+  }
+  get endPage(): number {
+    return Math.min(this.startPage + this.displayedPages, this.totalPages);
+  }
 
 
 }

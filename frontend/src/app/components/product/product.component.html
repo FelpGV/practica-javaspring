@@ -14,12 +14,25 @@
 <ng-container *ngIf="!products">
   <h2>No hay producto</h2>
 </ng-container>
-<button (click)="previousPage()" [disabled]="page === 0" class="disabled:opacity-50 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-  Anterior
-</button>
-<div *ngFor="let p of [].constructor(totalPages); let i = index">
-  <button (click)="goToPage(i)" [disabled]="page === i">{{ i + 1 }}</button>
+<div class="flex items-center justify-center mt-2">
+  <div class="flex space-x-1 border border-gray-300 rounded">
+    <button (click)="previousPage()" [disabled]="page === 0" [ngClass]="{'hover:bg-gray-200 hover:shadow-md': page !== 0}" class="disabled:opacity-50 bg-white text-black font-bold py-1 px-2 sm:py-2 sm:px-4 rounded">
+      Anterior
+    </button>
+    <div class="flex space-x-1" *ngFor="let i of [].constructor(endPage - startPage); let pageIndex = index">
+      <button (click)="goToPage(startPage + pageIndex)" [disabled]="currentPage === startPage + pageIndex" [ngClass]="{'border border-black': currentPage === startPage + pageIndex, 'hover:bg-gray-200 hover:shadow-md': currentPage !== startPage + pageIndex}" class="bg-white text-black font-bold py-1 px-2 sm:py-2 sm:px-4 rounded">
+        {{ startPage + pageIndex + 1 }}
+      </button>
+    </div>
+    <button (click)="nextPage()" [disabled]="isLastPage" [ngClass]="{'hover:bg-gray-200 hover:shadow-md': !isLastPage}" class="disabled:opacity-50 bg-white text-black font-bold py-1 px-2 sm:py-2 sm:px-4 rounded">
+      Siguiente
+    </button>
+  </div>
 </div>
-<button (click)="nextPage()" [disabled]="isLastPage" class="disabled:opacity-50 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-  Siguiente
-</button>
+
+
+
+
+
+
+
