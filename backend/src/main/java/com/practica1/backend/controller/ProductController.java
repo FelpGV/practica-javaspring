@@ -103,7 +103,7 @@ public class ProductController {
     })
     @Operation(summary = "Get products page")
     public Page<Product> getProductPage(@RequestParam(name = "page" ,defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 1);
+        Pageable pageable = PageRequest.of(page, 9);
         return productService.getProductPage(pageable);
     }
 

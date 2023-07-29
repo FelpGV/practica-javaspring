@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { PageResponse } from 'src/app/models/pageResponse';
 import { Product } from 'src/app/models/product';
-import { ProductService } from 'src/app/services/product.service';
+import { ProductService } from 'src/app/services/product/product.service';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +14,6 @@ export class ProductComponent {
   constructor(private productService: ProductService) { }
 
   @Input() products: Product[] = [];
-  // @Input() page!: PageResponse<Product>;
   isLastPage: boolean = false;
   page: number = 0;
   totalPages:number = 0;
@@ -43,8 +42,6 @@ export class ProductComponent {
       this.products = pageResponse.content;
       this.isLastPage = pageResponse.last;
       this.currentPage = pageResponse.number;
-      console.log( this.currentPage);
-
       if(this.totalPages === 0){
         this.totalPages = pageResponse.totalPages;
       }
