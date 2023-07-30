@@ -16,7 +16,7 @@ export class ProductService {
     return this.http.get<PageResponse<Product>>(`http://localhost:8080/api/products?page=${page}`);
   }
 
-  public getProductByCategory(categoryId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`http://localhost:8080/api/products/category/${categoryId}`);
+  public getProductByCategory(page: number, category: string): Observable<PageResponse<Product>> {
+    return this.http.get<PageResponse<Product>>(`http://localhost:8080/api/products/category/${category}?page=${page}`);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageResponse } from 'src/app/models/pageResponse';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product/product.service';
@@ -11,7 +12,11 @@ import { ProductService } from 'src/app/services/product/product.service';
 export class ProductComponent {
 
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private router:Router
+    ) { }
 
   @Input() products: Product[] = [];
   isLastPage: boolean = false;
@@ -20,6 +25,7 @@ export class ProductComponent {
   currentPage:number = 0;
   displayedPages: number = 5;
   hoveredIndex = -1;
+  category:string = "";
 
 
   onMouseOver(index: number) {
@@ -33,8 +39,26 @@ export class ProductComponent {
 
 
   ngOnInit() {
-    this.loadProducts();
+    this.route.params.subscribe(params => {
+      this.category = params['category'];
+      this.page = params['page'] || 0;
+      if(this.category){
+        this.loadProductsByCategory(this.category);
+      }else{
+        this.loadProducts();
+      }
+    });
+  }
 
+  loadProductsByCategory(category: string) {
+    this.productService.getProductByCategory(this.page, category).subscribe((pageResponse: PageResponse<Product>) => {
+      this.products = pageResponse.content;
+      this.isLastPage = pageResponse.last;
+      this.currentPage = pageResponse.number;
+      if(this.totalPages === 0){
+        this.totalPages = pageResponse.totalPages;
+      }
+    });
   }
 
   loadProducts() {
@@ -50,18 +74,44 @@ export class ProductComponent {
 
   goToPage(page: number) {
     this.page = page;
-    this.loadProducts();
+    if(this.category > ""){
+      this.loadProductsByCategory(this.category);
+      this.router.navigate([], {
+        queryParams: {
+          'category': this.category,
+          'page': this.page
+        },
+        queryParamsHandling: 'merge'
+      });
+    }else{
+      this.loadProducts();
+      // this.router.navigate([], {
+      //   queryParams: {
+      //     'page': this.page
+      //   },
+      //   // queryParamsHandling: 'merge'
+      // });
+    }
   }
+
 
   nextPage() {
     this.page++;
-    this.loadProducts();
+    if(this.category > ""){
+      this.loadProductsByCategory(this.category);
+    }else{
+      this.loadProducts();
+    }
   }
 
   previousPage() {
     if (this.page > 0) {
       this.page--;
-      this.loadProducts();
+      if(this.category > ""){
+        this.loadProductsByCategory(this.category);
+      }else{
+        this.loadProducts();
+      }
     }
   }
 

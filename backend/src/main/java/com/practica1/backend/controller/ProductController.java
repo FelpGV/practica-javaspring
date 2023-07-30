@@ -103,7 +103,7 @@ public class ProductController {
     })
     @Operation(summary = "Get products page")
     public Page<Product> getProductPage(@RequestParam(name = "page" ,defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 9);
+        Pageable pageable = PageRequest.of(page, 1);
         return productService.getProductPage(pageable);
     }
 
@@ -115,7 +115,7 @@ public class ProductController {
     })
     @Operation(summary = "Get products by category")
     public Page<Product> getProductsByCategory(@PathVariable String nameCategory, @RequestParam(name = "page" ,defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 9);
+        Pageable pageable = PageRequest.of(page, 1);
         return productService.getProductsByCategory(nameCategory, pageable);
     }
 
