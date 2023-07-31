@@ -10,7 +10,6 @@ export class HeaderComponent {
   constructor(public router: Router) { }
 
   isOpen: boolean = false;
-  teclado = "1";
 
   DropdownComponent() {
     this.isOpen = false;
