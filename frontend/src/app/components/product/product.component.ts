@@ -44,15 +44,12 @@ export class ProductComponent {
     });
     this.route.queryParams.subscribe(params => {
       this.page = params['page'] ? params['page'] - 1 : 0;
-      console.log(this.page);
     });
     if(this.category){
       this.loadProductsByCategory(this.category);
-      this.urlPage(this.page);
     }else{
       this.loadProducts();
     }
-
   }
 
 

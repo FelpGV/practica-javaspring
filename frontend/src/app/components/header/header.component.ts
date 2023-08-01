@@ -10,8 +10,27 @@ export class HeaderComponent {
   constructor(public router: Router) { }
 
   isOpen: boolean = false;
+  showDropdown: boolean = false;
+
 
   DropdownComponent() {
     this.isOpen = false;
+  }
+
+  goToHomePage() {
+    this.router.navigateByUrl('/redirect', { skipLocationChange: true }).then(() =>
+      this.router.navigate([''])
+    );
+  }
+
+  goToCategory(category: string) {
+    this.router.navigateByUrl('/redirect', { skipLocationChange: true }).then(() =>
+      this.router.navigate([`products/${category}`])
+    );
+    this.showDropdown = false;
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
   }
 }
