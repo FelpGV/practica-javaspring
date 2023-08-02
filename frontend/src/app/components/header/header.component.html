@@ -39,16 +39,16 @@
 
 
   <div class="flex items-center justify-center">
-    <div class="relative">
-      <button (click)="toggleDropdown()" class="">Categorias</button>
-      <div *ngIf="showDropdown" class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-          <button (click)="goToCategory('pantalla')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Pantalla</button>
-          <button (click)="goToCategory('mouse')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Mouse</button>
-          <button (click)="goToCategory('teclado')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Teclado</button>
-          <button (click)="goToCategory('disco duro')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Disco Duro</button>
+    <div class="relative" (mouseover)="showDropdown = true" (mouseleave)="showDropdown = false">
+        <button class="">Categorias</button>
+        <div [hidden]="!showDropdown" class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" (mouseleave)="showDropdown = false">
+            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu"  >
+                <button (click)="goToCategory('pantalla')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Pantalla</button>
+                <button (click)="goToCategory('mouse')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Mouse</button>
+                <button (click)="goToCategory('teclado')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Teclado</button>
+                <button (click)="goToCategory('disco duro')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Disco Duro</button>
+            </div>
         </div>
-      </div>
     </div>
   </div>
 
