@@ -10,7 +10,7 @@ export class HeaderComponent {
   constructor(public router: Router) { }
 
   isOpen: boolean = false;
-  showDropdown: boolean = false;
+  // showDropdown: boolean = false;
 
 
   DropdownComponent() {
@@ -27,10 +27,10 @@ export class HeaderComponent {
     this.router.navigateByUrl('/redirect', { skipLocationChange: true }).then(() =>
       this.router.navigate([`products/${category}`])
     );
-    this.showDropdown = false;
+    this.isOpen = false;
   }
 
   toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+    this.isOpen = !this.isOpen;
   }
 }
