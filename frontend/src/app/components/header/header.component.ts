@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(public router: Router) { }
 
+
   isOpen: boolean = false;
   // showDropdown: boolean = false;
 
@@ -30,7 +31,7 @@ export class HeaderComponent {
     this.isOpen = false;
   }
 
-  toggleDropdown() {
-    this.isOpen = !this.isOpen;
+  openMenu(isOpen: boolean) {
+    this.isOpen = isOpen;
   }
 }
